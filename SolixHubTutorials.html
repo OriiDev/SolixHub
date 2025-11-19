@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solix Hub - Video Tutorials</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0a1a 0%, #1a0f2e 50%, #2d1b4e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background: rgba(15, 10, 26, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(200, 150, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #d8a5ff 0%, #ff6b9d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(216, 165, 255, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(255, 107, 157, 0.8); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #d8a5ff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b9d;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #d8a5ff, #ff6b9d);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            font-size: 52px;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(135deg, #d8a5ff 0%, #ff6b9d 50%, #c9a9ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 50px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tutorials-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .video-player-container {
+            background: linear-gradient(135deg, rgba(200, 150, 255, 0.1), rgba(255, 107, 157, 0.1));
+            border: 2px solid rgba(200, 150, 255, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 100px;
+        }
+
+        .video-player {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(200, 150, 255, 0.3);
+        }
+
+        .video-player iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-title {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #d8a5ff, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .video-description {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #b8a0d8;
+            line-height: 1.6;
+        }
+
+        .videos-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #d8a5ff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .video-item {
+            background: linear-gradient(135deg, rgba(200, 150, 255, 0.1), rgba(255, 107, 157, 0.1));
+            border: 2px solid rgba(200, 150, 255, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            font-weight: 600;
+            color: #b8a0d8;
+        }
+
+        .video-item:hover {
+            background: linear-gradient(135deg, rgba(200, 150, 255, 0.2), rgba(255, 107, 157, 0.2));
+            border-color: #ff6b9d;
+            transform: translateX(5px);
+        }
+
+        .video-item.active {
+            background: linear-gradient(135deg, #d8a5ff 0%, #ff6b9d 100%);
+            color: white;
+            border-color: #ff6b9d;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(200, 150, 255, 0.2);
+            margin-top: 80px;
+            color: #a090c0;
+            font-size: 14px;
+        }
+
+        .footer-brand {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #d8a5ff 0%, #ff6b9d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 1024px) {
+            .tutorials-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .video-player-container {
+                position: relative;
+                top: 0;
+            }
+
+            .videos-sidebar {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .video-item {
+                flex: 1;
+                min-width: 150px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 36px;
+            }
+
+            .tutorials-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .videos-sidebar {
+                flex-direction: column;
+            }
+
+            .video-item {
+                width: 100%;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 12px 24px;
+            border: 2px solid rgba(200, 150, 255, 0.5);
+            background: linear-gradient(135deg, rgba(200, 150, 255, 0.1), rgba(255, 107, 157, 0.1));
+            color: #d8a5ff;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, rgba(200, 150, 255, 0.2), rgba(255, 107, 157, 0.2));
+            border-color: #ff6b9d;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-brand">Solix Hub</div>
+        <ul class="nav-links">
+            <li><a href="SolixHub.html">Home</a></li>
+            <li><a href="#tutorials">Tutorials</a></li>
+            <li><a href="SolixHub.html#features">Features</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <a href="SolixHub.html" class="back-btn">← Back to Home</a>
+        <h1 class="page-title">Video Tutorials</h1>
+
+        <div class="tutorials-layout">
+            <div class="video-player-container">
+                <div class="video-player">
+                    <iframe id="videoPlayer" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-title" id="currentTitle">Getting Started with Solix Hub</div>
+                <div class="video-description" id="currentDescription">Learn the basics of setting up Solix Hub and executing your first script. Perfect for beginners!</div>
+            </div>
+
+            <div class="videos-sidebar">
+                <div class="sidebar-title">Tutorials</div>
+                
+                <div class="video-item active" onclick="loadVideo('dQw4w9WgXcQ', 'Getting Started with Solix Hub', 'Learn the basics of setting up Solix Hub and executing your first script. Perfect for beginners!')">
+                    📖 Getting Started
+                </div>
+
+                <div class="video-item" onclick="loadVideo('jNQXAC9IVRw', 'Setting Up Your Keys', 'Complete guide to obtaining and setting up your authentication keys for Solix Hub.')">
+                    🔑 Key Setup
+                </div>
+
+                <div class="video-item" onclick="loadVideo('9bZkp7q19f0', 'Advanced Scripts', 'Explore advanced script features and optimization techniques.')">
+                    ⚙️ Advanced Scripts
+                </div>
+
+                <div class="video-item" onclick="loadVideo('OPf0YbXqDm0', 'Troubleshooting Guide', 'Common issues and solutions. Get help with errors and problems.')">
+                    🔧 Troubleshooting
+                </div>
+
+                <div class="video-item" onclick="loadVideo('Ks-_Mh1QhMc', 'Discord Community', 'Join our Discord community and connect with other users.')">
+                    💬 Community Guide
+                </div>
+
+                <div class="video-item" onclick="loadVideo('RgKAFK5djSk', 'Best Practices', 'Learn best practices for using Solix Hub securely.')">
+                    ⭐ Best Practices
+                </div>
+
+                <div class="video-item" onclick="loadVideo('tYzMGcUty6s', 'Updates & Features', 'Latest updates, new features, and improvements.')">
+                    🎉 What\'s New
+                </div>
+
+                <div class="video-item" onclick="loadVideo('oUFJJNQGwhk', 'Performance Tips', 'Optimize your scripts for better performance.')">
+                    ⚡ Performance
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-brand">Solix Hub</div>
+        <p>&copy; 2025 Solix Hub. Premium Script Distribution Platform. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function loadVideo(videoId, title, description) {
+            const player = document.getElementById('videoPlayer');
+            player.src = `https://www.youtube.com/embed/${videoId}`;
+            
+            document.getElementById('currentTitle').textContent = title;
+            document.getElementById('currentDescription').textContent = description;
+            
+            const videoItems = document.querySelectorAll('.video-item');
+            videoItems.forEach(item => item.classList.remove('active'));
+            event.target.closest('.video-item').classList.add('active');
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    </script>
+</body>
+</html>

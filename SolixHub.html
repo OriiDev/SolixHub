@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solix Hub - Premium Script Provider</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0515 0%, #15082a 50%, #1a0a2e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background: rgba(15, 10, 26, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 0, 255, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF00FF 0%, #FF1493 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(255, 0, 255, 0.8); }
+            50% { text-shadow: 0 0 20px rgba(255, 20, 147, 1); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #FF00FF;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #FF1493;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #FF00FF, #FF1493);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+            gap: 40px;
+            padding: 40px 20px;
+        }
+
+        .hero-title {
+            font-size: 64px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FF00FF 0%, #FF1493 50%, #FF00FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideDown 0.8s ease-out;
+            margin-bottom: 20px;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: #FF00FF;
+            animation: fadeIn 1.2s ease-out;
+            max-width: 600px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .loadstring-section {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.08), rgba(255, 20, 147, 0.08));
+            border: 2px solid rgba(255, 0, 255, 0.4);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 1.2s ease-out 0.2s both;
+            box-shadow: 0 20px 60px rgba(255, 0, 255, 0.2);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loadstring-label {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FF00FF, #FF1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #FF00FF 0%, #FF1493 100%);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.5);
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 0, 255, 0.7);
+        }
+
+        .copy-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .loadstring-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            border-radius: 10px;
+            color: #FF00FF;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            word-break: break-all;
+            cursor: text;
+        }
+
+        .buttons-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 40px;
+            animation: fadeInUp 1.2s ease-out 0.4s both;
+            align-items: center;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: nowrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: 2px solid rgba(255, 0, 255, 0.5);
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.08), rgba(255, 20, 147, 0.08));
+            color: #FF00FF;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.2), rgba(255, 20, 147, 0.2));
+            border-color: #FF1493;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.4);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF00FF 0%, #FF1493 100%);
+            border: none;
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 0, 255, 0.5);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 15px 40px rgba(255, 0, 255, 0.7);
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 80px;
+            animation: fadeInUp 1.2s ease-out 0.6s both;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.08), rgba(255, 20, 147, 0.08));
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: #FF1493;
+            box-shadow: 0 20px 60px rgba(255, 0, 255, 0.5);
+        }
+
+        .stat-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #FF00FF;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FF00FF, #FF1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: countUp 2s ease-out forwards;
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .stat-description {
+            font-size: 12px;
+            color: #FF00FF;
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255, 0, 255, 0.2);
+            margin-top: 80px;
+            color: #FF00FF;
+            font-size: 14px;
+        }
+
+        .footer-brand {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF00FF 0%, #FF1493 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 42px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                font-size: 14px;
+            }
+
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        .copied-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #FF00FF, #FF1493);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 700;
+            animation: slideUp 0.5s ease-out;
+            z-index: 1000;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FF00FF, #FF1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-top: 80px;
+            margin-bottom: 40px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .games-section {
+            margin-top: 80px;
+            margin-bottom: 80px;
+            animation: fadeInUp 1.2s ease-out 0.6s both;
+        }
+
+        .category-list {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 40px;
+            align-items: stretch;
+        }
+
+        .category-box {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.08), rgba(255, 20, 147, 0.08));
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            flex: 1;
+            min-width: 250px;
+            max-width: 320px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category-box:nth-child(2) {
+            max-width: 400px;
+            min-width: 350px;
+        }
+
+        .category-box:nth-child(2) .category-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        .category-box:nth-child(2) .category-items li {
+            border-bottom: 1px solid rgba(255, 0, 255, 0.2);
+            padding: 8px 0;
+        }
+
+        .category-title {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF00FF, #FF1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .category-items {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .category-items li {
+            color: #FF00FF;
+            font-size: 14px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 0, 255, 0.2);
+        }
+
+        .category-items li:last-child {
+            border-bottom: none;
+        }
+
+        .executors-section {
+            margin-top: 60px;
+            margin-bottom: 80px;
+            animation: fadeInUp 1.2s ease-out 0.8s both;
+        }
+
+        .executor-tables {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .executor-table {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.08), rgba(255, 20, 147, 0.08));
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            min-width: 280px;
+            backdrop-filter: blur(10px);
+        }
+
+        .executor-table h3 {
+            font-size: 16px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF00FF, #FF1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .executor-items {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .executor-items li {
+            color: #FF00FF;
+            font-size: 14px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 0, 255, 0.2);
+        }
+
+        .executor-items li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-brand">Solix Hub</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="SolixHubTutorials.html">Tutorials</a></li>
+            <li><a href="#features">Features</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1 class="hero-title">Solix Hub</h1>
+            <p class="hero-subtitle">text abt solix</p>
+
+            <div class="loadstring-section">
+                <div class="loadstring-label">Get Your Loadstring</div>
+                <button class="copy-btn" onclick="copyLoadstring()">Copy Loadstring</button>
+                <input type="text" class="loadstring-input" id="loadstringInput" value='loadstring(game:HttpGet("https://raw.githubusercontent.com/meobeo8/a/a/a"))()'>
+            </div>
+
+            <div class="buttons-section">
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="window.open('https://discord.gg/9RB4W8SJS8')">Discord Server</button>
+                    <button class="btn btn-primary" onclick="window.open('SolixHubTutorials.html')">View Tutorials</button>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn" onclick="window.open('https://ads.luarmor.net/get_key?for=Solix_Free_Keysystems-pqJCGTqnTsng')">Rinku Keysystem</button>
+                    <button class="btn" onclick="window.open('https://gckeys.cc/product?slug=bfe43bcc-a68e-4a17-ab3f-5d060c411a0d')">Buy Premium Key</button>
+                    <button class="btn" onclick="window.open('https://ads.luarmor.net/get_key?for=Solixhub_Free_KeySystem-OWlLHDMCHADk')">Linkvertise Keysystem</button>
+                </div>
+            </div>
+
+            <h2 class="section-title">🎮 Supported Games</h2>
+            
+            <div class="games-section">
+                <div class="category-list">
+                    <div class="category-box">
+                        <div class="category-title">External Support</div>
+                        <ul class="category-items">
+                            <li>Blox Fruits</li>
+                            <li>Shindo Life</li>
+                            <li>Dead Rails</li>
+                        </ul>
+                    </div>
+
+                    <div class="category-box">
+                        <div class="category-title">100% Working (UNC)</div>
+                        <ul class="category-items">
+                            <li>Demonfall</li>
+                            <li>Fisch</li>
+                            <li>Jujutsu Infinite</li>
+                            <li>Murder Mystery 2</li>
+                            <li>Pet Simulator 99</li>
+                            <li>Jailbreak</li>
+                            <li>Arise Crossover</li>
+                            <li>Bubble Gum Inf</li>
+                            <li>Grow A Garden</li>
+                            <li>Rivals</li>
+                            <li>Dig</li>
+                            <li>Type Soul</li>
+                            <li>Build a Plane</li>
+                            <li>99 Nights In The Forest</li>
+                            <li>3008</li>
+                            <li>Hunty Zombies</li>
+                            <li>Anime Rangers X</li>
+                            <li>Plants Vs Brainrots</li>
+                            <li>Weak Legacy 2</li>
+                            <li>Fish It</li>
+                            <li>Build A Zoo</li>
+
+                        </ul>
+                    </div>
+
+                    <div class="category-box">
+                        <div class="category-title">Not Working ATM</div>
+                        <ul class="category-items">
+                            <li>Counter Blox</li>
+                            <li>Anime Vanguard</li>
+                            <li>GPO</li>
+                            <li>Ghoul RE</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">⚙️ Working Free Executors</h2>
+
+            <div class="executors-section">
+                <div class="executor-tables">
+                    <div class="executor-table">
+                        <h3>📱 Mobile Executors</h3>
+                        <ul class="executor-items">
+                            <li>KRNL Mobile</li>
+                            <li>Codex Mobile</li>
+                            <li>Delta Mobile</li>
+                            <li>Arceus Mobile</li>
+                        </ul>
+                    </div>
+
+                    <div class="executor-table">
+                        <h3>🖥️ PC Executors</h3>
+                        <ul class="executor-items">
+                            <li>Swift</li>
+                            <li>Velocity</li>
+                            <li>Bunni</li>
+                            <li>Volcano</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-title">Monthly Executions</div>
+                    <div class="stat-value">100K+</div>
+                    <div class="stat-description">Scripts executed every month</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-title">24/7 Support</div>
+                    <div class="stat-value">99%</div>
+                    <div class="stat-description">Uptime guarantee</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-title">Active Users</div>
+                    <div class="stat-value">10K+</div>
+                    <div class="stat-description">Users online weekly</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-brand">Solix Hub</div>
+        <p>&copy; RIGHTS</p>
+    </footer>
+
+    <script>
+        function copyLoadstring() {
+            const input = document.getElementById('loadstringInput');
+            input.select();
+            document.execCommand('copy');
+            
+            const notification = document.createElement('div');
+            notification.className = 'copied-notification';
+            notification.textContent = '✓ Loadstring copied!';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
