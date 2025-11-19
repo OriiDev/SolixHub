@@ -1,2 +1,0 @@
-# SolixHub
-WebSite
